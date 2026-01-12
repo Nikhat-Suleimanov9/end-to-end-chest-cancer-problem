@@ -2,6 +2,7 @@ from cnnChestCancer.constants import *
 from cnnChestCancer.utils.common import read_yaml, create_directories
 from cnnChestCancer.entity.config_entity import DataIngestionConfig
 from cnnChestCancer.entity.config_entity import PrepareBaseModelConfig
+from cnnChestCancer.entity.config_entity import TrainingConfig
 import os
 
 class ConfigurationManager:
@@ -39,3 +40,38 @@ class ConfigurationManager:
         )
 
         return prepare_base_model_config      
+
+    def get_training_config(self) -> TrainingConfig:
+        training = self.config.training
+        prepare_base_model = self.config.prepare_base_model
+        params = self.params
+        train_data = os.path.join(self.config.data_ingestion.unzip_dir, "Chest_Cancer", "train")
+        valid_data = os.path.join(self.config.data_ingestion.unzip_dir, "Chest_Cancer", "valid")
+        test_data = os.path.join(self.config.data_ingestion.unzip_dir, "Chest_Cancer", "test")
+
+        create_directories([
+            Path(training.root_dir)
+        ])
+
+        training_config = TrainingConfig(
+            root_dir=Path(training.root_dir),
+            trained_model_path=Path(training.trained_model_path),
+            base_model_path=Path(prepare_base_model.base_model_path),
+            train_data =Path(train_data),
+            valid_data = Path(valid_data),
+            test_data = Path(test_data),
+            param_freeze_n=params.FREEZE_N,
+            param_epochs_phase_1=params.EPOCHS_PHASE_1,
+            param_epochs_phase_2=params.EPOCHS_PHASE_2,
+            param_learning_rate_phase_1=params.LEARNING_RATE_PHASE_1,
+            param_learning_rate_phase_2=params.LEARNING_RATE_PHASE_2,
+            param_batch_size=params.BATCH_SIZE,
+            param_is_augmentation=params.AUGMENTATION,
+            param_do_offline_augm = params.DO_OFFLINE_AUGM,
+            param_target_size_augm = params.TARGET_SIZE_AUGM,
+            param_image_size=params.IMAGE_SIZE,
+            param_reduce_lr= params.CALLBACKS.REDUCE_LR,
+            param_classes= params.CLASSES
+        )
+
+        return training_config     
