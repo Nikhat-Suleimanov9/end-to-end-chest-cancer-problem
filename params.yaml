@@ -1,1 +1,5 @@
-key: val
+AUGMENTATION: True
+IMAGE_SIZE: [224, 224, 3] # as per VGG16 model
+BATCH_SIZE: 32
+INCLUDE_TOP: False
+WEIGHTS: imagenet
