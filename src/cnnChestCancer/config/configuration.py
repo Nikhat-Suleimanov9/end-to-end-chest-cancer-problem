@@ -84,7 +84,7 @@ class ConfigurationManager:
         eval_config = EvaluationConfig(
             path_of_model = self.config.training.trained_model_path,
             valid_data = os.path.join(self.config.data_ingestion.unzip_dir, "Chest_Cancer", "valid"),
-            mlflow_uri = 'https://dagshub.com/Nikhat-Suleimanov9/end-to-end-chest-cancer-problem.mlflow',
+            mlflow_uri = '',
             all_params = self.params,
             param_image_size = self.params.IMAGE_SIZE,
             param_batch_size = self.params.BATCH_SIZE
