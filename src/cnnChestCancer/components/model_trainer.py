@@ -37,7 +37,7 @@ class Training:
         x = tf.keras.layers.Dense(512, activation='relu')(x)
         x = tf.keras.layers.BatchNormalization()(x)
         x = tf.keras.layers.Dropout(rate=0.3)(x)
-        x = tf.keras.layers.Dense(216, activation='relu')(x)
+        x = tf.keras.layers.Dense(256, activation='relu')(x)
         prediction = tf.keras.layers.Dense(units=self.config.param_classes, activation='softmax')(x)
 
         full_model = tf.keras.models.Model(inputs=b.input, outputs=prediction)
