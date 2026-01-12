@@ -85,8 +85,8 @@ stages:
     outs:
     - path: artifacts/training/trained_model.h5
       hash: md5
-      md5: 26673328b18242da6c88180f79784339
-      size: 179948928
+      md5: c047687f7cf17e175f820afaa5547e05
+      size: 180196608
   evaluation:
     cmd: python src/cnnChestCancer/pipeline/fourth_stage_model_evaluation.py
     deps:
