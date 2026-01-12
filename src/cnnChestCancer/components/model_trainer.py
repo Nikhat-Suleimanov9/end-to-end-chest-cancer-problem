@@ -11,7 +11,7 @@ from pathlib import Path
 from tensorflow.keras.applications.vgg16 import preprocess_input
 import numpy as np
 from cnnChestCancer.entity.config_entity import TrainingConfig
-
+import shutil
 
 class Training:
     def __init__(self, config: TrainingConfig):
@@ -56,11 +56,15 @@ class Training:
         ])
         augmented = augmentation(image=image)
         return augmented['image']
-
-    def balance_classes_offline(self,train_data):
+    def balance_classes_offline(self, train_data, output_dir):
         target_size = self.config.param_target_size_augm
-        for class_name in os.listdir(train_data):
-            class_path = os.path.join(train_data, class_name)
+        
+        # Copy original data first
+        if not os.path.exists(output_dir):
+            shutil.copytree(train_data, output_dir)
+
+        for class_name in os.listdir(output_dir):
+            class_path = os.path.join(output_dir, class_name)
             if not os.path.isdir(class_path):
                 continue
 
@@ -103,7 +107,10 @@ class Training:
         """
         if self.config.param_do_offline_augm:
             print("Applying offline augmentation to training data...")
-            self.balance_classes_offline(self.config.train_data)
+            train_dir = self.config.augmented_train_data
+            self.balance_classes_offline(self.config.train_data,self.config.augmented_train_data )
+        else:
+            train_dir = self.config.train_data    
             
         datagenerator_kwargs = dict(
             rescale=1./255
@@ -148,7 +155,7 @@ class Training:
             train_datagenerator = valid_datagenerator
 
         self.train_generator = train_datagenerator.flow_from_directory(
-            directory=self.config.train_data,  # separate train folder
+            directory=train_dir,  # separate train folder
             shuffle=True,
             **dataflow_kwargs
         )
@@ -192,7 +199,7 @@ class Training:
 
         return history
     def train_phase_2(self):
-        
+
         print(f"Phase 2: Unfreezing last {self.config.param_freeze_n} layers")
 
         self.unfreeze_last_n_layers(self.config.param_freeze_n)
@@ -229,4 +236,4 @@ class Training:
             model=self.model
         )
 
-        return history_1, history_2  
+        return history_1, history_2   

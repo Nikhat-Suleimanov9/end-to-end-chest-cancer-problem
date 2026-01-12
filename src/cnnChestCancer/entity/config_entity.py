@@ -28,6 +28,7 @@ class TrainingConfig:
     train_data: Path
     valid_data: Path
     test_data: Path
+    augmented_train_data : Path
     param_freeze_n: int
     param_epochs_phase_1: int
     param_epochs_phase_2: int
@@ -40,3 +41,12 @@ class TrainingConfig:
     param_image_size: list
     param_reduce_lr: list
     param_classes: int    
+
+@dataclass(frozen=True)
+class EvaluationConfig:
+    path_of_model: Path
+    valid_data: Path
+    all_params: dict
+    mlflow_uri: str
+    param_image_size: list
+    param_batch_size: int    

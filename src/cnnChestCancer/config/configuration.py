@@ -3,6 +3,7 @@ from cnnChestCancer.utils.common import read_yaml, create_directories
 from cnnChestCancer.entity.config_entity import DataIngestionConfig
 from cnnChestCancer.entity.config_entity import PrepareBaseModelConfig
 from cnnChestCancer.entity.config_entity import TrainingConfig
+from cnnChestCancer.entity.config_entity import EvaluationConfig
 import os
 
 class ConfigurationManager:
@@ -48,6 +49,8 @@ class ConfigurationManager:
         train_data = os.path.join(self.config.data_ingestion.unzip_dir, "Chest_Cancer", "train")
         valid_data = os.path.join(self.config.data_ingestion.unzip_dir, "Chest_Cancer", "valid")
         test_data = os.path.join(self.config.data_ingestion.unzip_dir, "Chest_Cancer", "test")
+        augmented_train_data = os.path.join(self.config.data_ingestion.unzip_dir, "Chest_Cancer_augmented", "train")
+
 
         create_directories([
             Path(training.root_dir)
@@ -60,6 +63,7 @@ class ConfigurationManager:
             train_data =Path(train_data),
             valid_data = Path(valid_data),
             test_data = Path(test_data),
+            augmented_train_data = Path(augmented_train_data),
             param_freeze_n=params.FREEZE_N,
             param_epochs_phase_1=params.EPOCHS_PHASE_1,
             param_epochs_phase_2=params.EPOCHS_PHASE_2,
@@ -74,4 +78,15 @@ class ConfigurationManager:
             param_classes= params.CLASSES
         )
 
-        return training_config     
+        return training_config   
+
+    def get_evaluation_config(self) -> EvaluationConfig:
+        eval_config = EvaluationConfig(
+            path_of_model = self.config.training.trained_model_path,
+            valid_data = os.path.join(self.config.data_ingestion.unzip_dir, "Chest_Cancer", "valid"),
+            mlflow_uri = 'https://dagshub.com/Nikhat-Suleimanov9/end-to-end-chest-cancer-problem.mlflow',
+            all_params = self.params,
+            param_image_size = self.params.IMAGE_SIZE,
+            param_batch_size = self.params.BATCH_SIZE
+        )
+        return eval_config     

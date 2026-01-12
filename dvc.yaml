@@ -1,0 +1,58 @@
+stages:
+  data_ingestion:
+    cmd: python src/cnnChestCancer/pipeline/first_stage_data_ingestion.py
+    deps:
+      - src/cnnChestCancer/pipeline/first_stage_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/Chest_cancer
+
+  prepare_base_model:
+    cmd: python src/cnnChestCancer/pipeline/second_stage_prepare_base_model.py
+    deps:
+      - src/cnnChestCancer/pipeline/second_stage_prepare_base_model.py
+      - config/config.yaml
+    params:
+      - IMAGE_SIZE
+      - INCLUDE_TOP
+      - WEIGHTS  
+    outs:
+      - artifacts/prepare_base_model
+
+  training:
+    cmd: python src/cnnChestCancer/pipeline/third_stage_model_trainer.py
+    deps:
+      - src/cnnChestCancer/pipeline/third_stage_model_trainer.py
+      - config/config.yaml
+      - artifacts/data_ingestion/Chest_cancer
+      - artifacts/prepare_base_model
+    params:
+      - FREEZE_N
+      - EPOCHS_PHASE_1
+      - EPOCHS_PHASE_2
+      - LEARNING_RATE_PHASE_1
+      - LEARNING_RATE_PHASE_2
+      - BATCH_SIZE
+      - AUGMENTATION
+      - DO_OFFLINE_AUGM
+      - TARGET_SIZE_AUGM
+      - CALLBACKS.REDUCE_LR
+      - CLASSES
+      - IMAGE_SIZE
+    outs:
+      - artifacts/training/trained_model.h5
+
+  evaluation:
+    cmd: python src/cnnChestCancer/pipeline/fourth_stage_model_evaluation.py
+    deps:
+      - src/cnnChestCancer/pipeline/fourth_stage_model_evaluation.py
+      - config/config.yaml
+      - artifacts/data_ingestion/Chest_cancer
+      - artifacts/prepare_base_model
+    params:
+      - BATCH_SIZE
+      - IMAGE_SIZE
+    metrics:
+    - scores.json:
+        cache: false   
+
