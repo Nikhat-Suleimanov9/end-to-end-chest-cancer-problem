@@ -111,10 +111,7 @@ class Training:
             self.balance_classes_offline(self.config.train_data,self.config.augmented_train_data )
         else:
             train_dir = self.config.train_data    
-            
-        datagenerator_kwargs = dict(
-            rescale=1./255
-        )
+
 
         dataflow_kwargs = dict(
             target_size=self.config.param_image_size[:-1],
@@ -123,7 +120,9 @@ class Training:
         )
 
         # Validation generator
-        valid_datagenerator = tf.keras.preprocessing.image.ImageDataGenerator(**datagenerator_kwargs)
+        valid_datagenerator = tf.keras.preprocessing.image.ImageDataGenerator(
+        preprocessing_function=preprocess_input
+    )
         self.valid_generator = valid_datagenerator.flow_from_directory(
             directory=self.config.valid_data,  # separate validation folder
             shuffle=False,
@@ -131,7 +130,9 @@ class Training:
         )
 
         # Test generator
-        test_datagenerator = tf.keras.preprocessing.image.ImageDataGenerator(**datagenerator_kwargs)
+        test_datagenerator = tf.keras.preprocessing.image.ImageDataGenerator(
+        preprocessing_function=preprocess_input
+    )
         self.test_generator = test_datagenerator.flow_from_directory(
             directory=self.config.test_data,  # separate test folder
             shuffle=False,
@@ -149,7 +150,6 @@ class Training:
                 zoom_range=0.15,
                 horizontal_flip=True,
                 vertical_flip=True,
-                **datagenerator_kwargs
             )
         else:
             train_datagenerator = valid_datagenerator

@@ -5,6 +5,7 @@ from pathlib import Path
 from cnnChestCancer.constants import *
 from cnnChestCancer.utils.common import read_yaml, create_directories, save_json
 from cnnChestCancer.entity.config_entity import EvaluationConfig
+from tensorflow.keras.applications.vgg16 import preprocess_input
 import mlflow
 import mlflow.keras
 from urllib.parse import urlparse
@@ -14,16 +15,16 @@ class Evaluation:
         self.config = config
 
     def _valid_generator(self):
-        datagenerator_kwargs = dict(
-            rescale=1./255
-        )
+
 
         dataflow_kwargs = dict(
             target_size=self.config.param_image_size[:-1],
             batch_size=self.config.param_batch_size,
             interpolation="bilinear"
         )
-        valid_datagenerator = tf.keras.preprocessing.image.ImageDataGenerator(**datagenerator_kwargs)
+        valid_datagenerator = tf.keras.preprocessing.image.ImageDataGenerator(
+        preprocessing_function=preprocess_input
+    )
         self.valid_generator = valid_datagenerator.flow_from_directory(
             directory=self.config.valid_data,  
             shuffle=False,
