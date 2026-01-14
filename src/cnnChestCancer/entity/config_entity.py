@@ -41,6 +41,7 @@ class TrainingConfig:
     param_image_size: list
     param_reduce_lr: list
     param_classes: int    
+    model_path: Path
 
 @dataclass(frozen=True)
 class EvaluationConfig:

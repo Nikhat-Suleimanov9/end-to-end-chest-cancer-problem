@@ -164,7 +164,10 @@ class Training:
     def save_model(path: Path, model: tf.keras.Model):
         model.save(path)
 
-    
+    def save_model_to_model_path(self, source_path: Path, model_path: Path ):
+        model_path.mkdir(parents=True, exist_ok=True)
+        shutil.copy(source_path,model_path / source_path.name)
+
     def freeze_all_layers(self):
         for layer in self.base_model.layers:
             layer.trainable = False
@@ -235,5 +238,7 @@ class Training:
             path=self.config.trained_model_path,
             model=self.model
         )
+
+        self.save_model_to_model_path(self.config.trained_model_path,self.config.model_path)
 
         return history_1, history_2   

@@ -1,4 +1,5 @@
 artifacts_root: artifacts
+model_path : model
 
 data_ingestion:
   root_dir: artifacts/data_ingestion

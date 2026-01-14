@@ -3,6 +3,7 @@ import os
 from flask_cors import CORS, cross_origin
 from cnnChestCancer.utils.common import decodeImage
 from cnnChestCancer.pipeline.predict import PredictionPipeline
+import json
 
 os.putenv('LANG', 'en_US.UTF-8')
 os.putenv('LC_ALL', 'en_US.UTF-8')
@@ -27,7 +28,7 @@ def home():
 @cross_origin()
 def trainRoute():
     os.system("python main.py")
-    # os.system("dvc repro")
+    #os.system("dvc repro")
     return "Training done successfully!"
 
 
@@ -41,6 +42,18 @@ def predictRoute():
     result = cApp.classification.predict()
     return jsonify(result)
 
+
+@app.route("/scores", methods=["GET"])
+def get_scores():
+    scores_path = os.path.join("scores.json")
+
+    if not os.path.exists(scores_path):
+        return jsonify({"error": "scores.json not found"}), 404
+
+    with open(scores_path, "r") as f:
+        scores = json.load(f)
+
+    return jsonify(scores)
 
 if __name__ == "__main__":
     cApp = ClientApp()

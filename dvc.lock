@@ -5,8 +5,8 @@ stages:
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: ec94bfc6c14d02786b32649f8c923c97
-      size: 510
+      md5: 991e88256a1558fe4c02351cb6e3b4a8
+      size: 530
     - path: src/cnnChestCancer/pipeline/first_stage_data_ingestion.py
       hash: md5
       md5: d1dc7b3cd6d6a4ea2a7ecd7a9575db2b
@@ -22,8 +22,8 @@ stages:
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: ec94bfc6c14d02786b32649f8c923c97
-      size: 510
+      md5: 991e88256a1558fe4c02351cb6e3b4a8
+      size: 530
     - path: src/cnnChestCancer/pipeline/second_stage_prepare_base_model.py
       hash: md5
       md5: 1cdd5836f3cf8f5721e2badc7f15a8c3
@@ -57,8 +57,8 @@ stages:
       nfiles: 1
     - path: config/config.yaml
       hash: md5
-      md5: ec94bfc6c14d02786b32649f8c923c97
-      size: 510
+      md5: 991e88256a1558fe4c02351cb6e3b4a8
+      size: 530
     - path: src/cnnChestCancer/pipeline/third_stage_model_trainer.py
       hash: md5
       md5: c1560c244f5b81bba1a6d33f93818a20
@@ -85,7 +85,7 @@ stages:
     outs:
     - path: artifacts/training/trained_model.h5
       hash: md5
-      md5: f6fe5f66ce6696f4e5a30f84becb8582
+      md5: 8d1951fd134b4fbebad8283415e9b5c8
       size: 180196608
   evaluation:
     cmd: python src/cnnChestCancer/pipeline/fourth_stage_model_evaluation.py
@@ -102,12 +102,12 @@ stages:
       nfiles: 1
     - path: config/config.yaml
       hash: md5
-      md5: ec94bfc6c14d02786b32649f8c923c97
-      size: 510
+      md5: 991e88256a1558fe4c02351cb6e3b4a8
+      size: 530
     - path: src/cnnChestCancer/pipeline/fourth_stage_model_evaluation.py
       hash: md5
-      md5: 21f68341b1da77780b65eab7d5c777ee
-      size: 933
+      md5: c4a0b03507cdeccb447309b49f4a8fb8
+      size: 934
     params:
       params.yaml:
         BATCH_SIZE: 32
@@ -118,5 +118,5 @@ stages:
     outs:
     - path: scores.json
       hash: md5
-      md5: d8a58dfcf547c6c8e02b91c74df7e48c
-      size: 73
+      md5: ea6473d23352a2e7bd563ed7355909c6
+      size: 57

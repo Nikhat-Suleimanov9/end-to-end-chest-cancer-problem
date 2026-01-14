@@ -20,10 +20,15 @@ class PredictionPipeline:
         test_image = image.img_to_array(test_image)
         test_image = np.expand_dims(test_image, axis = 0)
         test_image = preprocess_input(test_image)
+
         result = np.argmax(model.predict(test_image), axis=1)
         print(result)
         predicted_index = int(result[0])
         prediction = self.class_names[predicted_index]
+        
+        con = round(float(np.max(model.predict(test_image))) * 100, 2)
 
         return [{
-        "image": prediction}]
+        "image": prediction,
+        "confidence" : con
+    }]

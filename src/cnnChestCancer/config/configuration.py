@@ -75,7 +75,8 @@ class ConfigurationManager:
             param_target_size_augm = params.TARGET_SIZE_AUGM,
             param_image_size=params.IMAGE_SIZE,
             param_reduce_lr= params.CALLBACKS.REDUCE_LR,
-            param_classes= params.CLASSES
+            param_classes= params.CLASSES,
+            model_path = Path(self.config.model_path)
         )
 
         return training_config   
@@ -84,7 +85,7 @@ class ConfigurationManager:
         eval_config = EvaluationConfig(
             path_of_model = self.config.training.trained_model_path,
             valid_data = os.path.join(self.config.data_ingestion.unzip_dir, "Chest_Cancer", "valid"),
-            mlflow_uri = 'https://dagshub.com/Nikhat-Suleimanov9/end-to-end-chest-cancer-problem.mlflow',
+            mlflow_uri = '',
             all_params = self.params,
             param_image_size = self.params.IMAGE_SIZE,
             param_batch_size = self.params.BATCH_SIZE
