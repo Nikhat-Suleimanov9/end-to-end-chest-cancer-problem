@@ -123,4 +123,3 @@ Example predictions, along with screenshots of the web application output, are s
 The model demonstrates strong performance in classifying chest cancer cases, achieving a **test accuracy of 94.6%**.  
 Example predictions, along with screenshots of the web application output, are shown below.
 
->>>>>>> 654dbacb7a79bc92bcb82204db9d17dcab1b3a4d
