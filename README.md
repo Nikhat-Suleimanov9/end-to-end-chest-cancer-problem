@@ -30,6 +30,7 @@ Manual diagnosis from medical images is time-consuming and subject to human erro
 This project aims to assist medical professionals by automatically classifying chest cancer from medical images using deep learning.
 
 ## Demo
+![Web application demo](assets/demo.gif)
 
 ## Dataset
 - Source: https://www.kaggle.com/datasets/mohamedhanyyy/chest-ctscan-images/code?datasetId=839140&sortBy=dateRun&tab=profile&excludeNonAccessedDatasources=false
@@ -116,4 +117,19 @@ mlflow_uri = "your_uri"
 ### Results
 The model demonstrates strong performance in classifying chest cancer cases, achieving a **test accuracy of 94.6%**.  
 Example predictions, along with screenshots of the web application output, are shown below.
-(assets/image_1.png)
+
+<p align="center">
+  <img src="assets/Image_1.png" width="350"><br>
+  <em>Prediction example 1</em>
+</p>
+
+<p align="center">
+  <img src="assets/Image_2.png" width="350"><br>
+  <em>Prediction example 2</em>
+</p>
+
+<p align="center">
+  <img src="assets/Image_3.png" width="350"><br>
+  <em>Prediction example 3</em>
+</p>
+
